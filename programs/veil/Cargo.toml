@@ -1,0 +1,25 @@
+[package]
+name = "veil"
+version = "0.1.0"
+description = "VEIL - Private Parimutuel Prediction Market"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "veil"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+mock-mpc = []  # Enable mock mode for testing without MPC
+idl-build = ["anchor-lang/idl-build", "anchor-spl/idl-build", "arcium-anchor/idl-build"]
+
+[dependencies]
+anchor-lang = { workspace = true, features = ["init-if-needed"] }
+anchor-spl = { workspace = true }
+arcium-client = { version = "=0.6.3", default-features = false }
+arcium-macros = "=0.6.3"
+arcium-anchor = "=0.6.3"
