@@ -32,7 +32,7 @@ describe("VEIL - Private Prediction Market", () => {
 
   // Program will be loaded after build
   // const program = anchor.workspace.Veil as Program<Veil>;
-  const programId = new PublicKey("VEiL111111111111111111111111111111111111111");
+  const programId = new PublicKey("FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy");
 
   // Test accounts
   let authority: Keypair;

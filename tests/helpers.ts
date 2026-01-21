@@ -124,12 +124,24 @@ export async function airdropSol(
 
 /**
  * Create and fund a new keypair
+ * On devnet, skips airdrop if balance is sufficient
  */
 export async function createFundedKeypair(
   connection: Connection,
   lamports: number = 2 * anchor.web3.LAMPORTS_PER_SOL
 ): Promise<Keypair> {
   const keypair = Keypair.generate();
+
+  // Check if we're on devnet (to avoid rate limits)
+  const genesisHash = await connection.getGenesisHash();
+  const isDevnet = genesisHash === "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG";
+
+  if (isDevnet) {
+    // On devnet, use provider wallet to transfer instead of airdrop
+    console.log("  [Devnet] Skipping airdrop, using keypair without funding");
+    return keypair;
+  }
+
   const signature = await connection.requestAirdrop(keypair.publicKey, lamports);
   await connection.confirmTransaction(signature);
   return keypair;

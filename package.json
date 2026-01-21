@@ -2,23 +2,31 @@
   "name": "veil",
   "version": "0.1.0",
   "description": "VEIL - Private Parimutuel Prediction Market",
+  "type": "module",
+  "main": "sdk/index.ts",
+  "exports": {
+    ".": "./sdk/index.ts",
+    "./sdk": "./sdk/index.ts"
+  },
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
     "test": "anchor test",
     "test:local": "anchor test --skip-local-validator",
     "build": "anchor build",
+    "build:sdk": "tsc -p tsconfig.sdk.json",
     "deploy": "anchor deploy",
     "arcium:build": "arcium build",
     "arcium:test": "arcium test",
-    "arcium:deploy": "arcium deploy"
+    "arcium:deploy": "arcium deploy",
+    "example": "npx ts-node sdk/examples/basic-usage.ts"
   },
   "packageManager": "npm@11.6.2",
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",
     "@solana/web3.js": "^1.95.0",
     "@solana/spl-token": "^0.4.0",
-    "@arcium-hq/client": "0.5.4",
+    "@arcium-hq/client": "^0.6.3",
     "@noble/curves": "^1.4.0",
     "bn.js": "^5.2.1"
   },

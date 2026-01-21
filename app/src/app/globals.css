@@ -1,0 +1,335 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   ROOT VARIABLES
+   ============================================ */
+:root {
+  --void-core: #030305;
+  --cipher-glow: rgba(124, 58, 237, 0.5);
+  --flux-pulse: rgba(34, 211, 238, 0.5);
+  --noise-opacity: 0.03;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-void-950 text-white font-sans antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.15), transparent),
+    linear-gradient(to bottom, transparent, rgba(3, 3, 5, 1));
+  min-height: 100vh;
+}
+
+/* Noise overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: var(--noise-opacity);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Selection */
+::selection {
+  @apply bg-cipher-600/50 text-white;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-void-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-cipher-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-cipher-600;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+.text-display {
+  @apply font-display tracking-tight;
+  text-shadow: 0 0 80px rgba(124, 58, 237, 0.3);
+}
+
+.text-encrypted {
+  @apply font-mono text-cipher-400;
+  text-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+@layer components {
+  .btn-primary {
+    @apply relative px-6 py-3 bg-cipher-600 text-white font-medium rounded-lg
+           overflow-hidden transition-all duration-300
+           hover:bg-cipher-500 hover:shadow-cipher
+           active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none;
+  }
+
+  .btn-primary::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent
+           translate-x-[-100%] transition-transform duration-500;
+  }
+
+  .btn-primary:hover::before {
+    @apply translate-x-[100%];
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-void-700 text-white font-medium rounded-lg
+           border border-void-600 transition-all duration-300
+           hover:bg-void-600 hover:border-cipher-700
+           active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 text-cipher-400 font-medium rounded-lg
+           transition-all duration-300
+           hover:bg-cipher-900/30 hover:text-cipher-300;
+  }
+
+  .btn-bet-yes {
+    @apply relative px-8 py-4 bg-sealed-600/20 text-sealed-400 font-bold rounded-xl
+           border-2 border-sealed-500/30 transition-all duration-300
+           hover:bg-sealed-600/30 hover:border-sealed-400 hover:shadow-[0_0_30px_rgba(74,222,128,0.3)]
+           active:scale-[0.98];
+  }
+
+  .btn-bet-no {
+    @apply relative px-8 py-4 bg-breach-600/20 text-breach-400 font-bold rounded-xl
+           border-2 border-breach-500/30 transition-all duration-300
+           hover:bg-breach-600/30 hover:border-breach-400 hover:shadow-[0_0_30px_rgba(248,113,113,0.3)]
+           active:scale-[0.98];
+  }
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+@layer components {
+  .card {
+    @apply bg-void-800/50 backdrop-blur-sm rounded-2xl border border-void-600/50
+           transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:border-cipher-700/50 hover:shadow-cipher;
+  }
+
+  .card-glow {
+    @apply shadow-inner-cipher;
+  }
+}
+
+/* ============================================
+   INPUT FIELDS
+   ============================================ */
+@layer components {
+  .input-field {
+    @apply w-full px-4 py-3 bg-void-900 text-white rounded-lg
+           border border-void-600 transition-all duration-300
+           placeholder:text-void-600
+           focus:outline-none focus:border-cipher-600 focus:shadow-[0_0_20px_rgba(124,58,237,0.2)];
+  }
+
+  .input-label {
+    @apply block text-sm font-medium text-void-400 mb-2;
+  }
+}
+
+/* ============================================
+   ENCRYPTION ANIMATION
+   ============================================ */
+.encrypt-text {
+  position: relative;
+}
+
+.encrypt-text::after {
+  content: attr(data-encrypted);
+  position: absolute;
+  inset: 0;
+  @apply text-cipher-400 font-mono;
+  clip-path: inset(0 100% 0 0);
+  animation: reveal 0.5s ease-out forwards;
+}
+
+@keyframes reveal {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Scramble effect for numbers */
+.scramble-chars {
+  @apply inline-block font-mono;
+}
+
+/* ============================================
+   GLOWING ELEMENTS
+   ============================================ */
+.glow-cipher {
+  box-shadow:
+    0 0 20px rgba(124, 58, 237, 0.3),
+    inset 0 0 20px rgba(124, 58, 237, 0.1);
+}
+
+.glow-text {
+  text-shadow: 0 0 20px currentColor;
+}
+
+/* ============================================
+   STATUS INDICATORS
+   ============================================ */
+@layer components {
+  .status-open {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full
+           bg-sealed-500/20 text-sealed-400 text-sm font-medium;
+  }
+
+  .status-open::before {
+    content: "";
+    @apply w-2 h-2 rounded-full bg-sealed-400 animate-pulse;
+  }
+
+  .status-closed {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full
+           bg-void-600 text-void-400 text-sm font-medium;
+  }
+
+  .status-resolving {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full
+           bg-cipher-500/20 text-cipher-400 text-sm font-medium;
+  }
+
+  .status-resolving::before {
+    content: "";
+    @apply w-2 h-2 rounded-full bg-cipher-400 animate-pulse;
+  }
+
+  .status-resolved {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full
+           bg-flux-500/20 text-flux-400 text-sm font-medium;
+  }
+}
+
+/* ============================================
+   GRID BACKGROUND
+   ============================================ */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(124, 58, 237, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ============================================
+   COUNTDOWN TIMER
+   ============================================ */
+.countdown-segment {
+  @apply flex flex-col items-center justify-center p-3 bg-void-800 rounded-lg
+         border border-void-600 min-w-[70px];
+}
+
+.countdown-value {
+  @apply text-2xl font-mono font-bold text-cipher-400;
+  text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+}
+
+.countdown-label {
+  @apply text-xs text-void-500 uppercase tracking-wider mt-1;
+}
+
+/* ============================================
+   WALLET BUTTON OVERRIDE
+   ============================================ */
+.wallet-adapter-button {
+  @apply bg-cipher-600 hover:bg-cipher-500 !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  @apply bg-void-900 !important;
+}
+
+/* ============================================
+   PAGE TRANSITIONS
+   ============================================ */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+/* ============================================
+   ENCRYPTED DATA DISPLAY
+   ============================================ */
+.encrypted-display {
+  @apply font-mono text-cipher-500/70 text-xs break-all
+         bg-void-900 rounded p-2 border border-void-700;
+  letter-spacing: 0.1em;
+}
+
+/* ============================================
+   MARKET CARD POOL BAR
+   ============================================ */
+.pool-bar {
+  @apply relative h-2 bg-void-700 rounded-full overflow-hidden;
+}
+
+.pool-bar-yes {
+  @apply absolute left-0 top-0 h-full bg-gradient-to-r from-sealed-600 to-sealed-400
+         transition-all duration-500;
+}
+
+.pool-bar-no {
+  @apply absolute right-0 top-0 h-full bg-gradient-to-l from-breach-600 to-breach-400
+         transition-all duration-500;
+}
+
+/* ============================================
+   TOOLTIP
+   ============================================ */
+.tooltip {
+  @apply relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5
+         bg-void-800 text-white text-sm rounded-lg border border-void-600
+         opacity-0 pointer-events-none transition-opacity duration-200
+         whitespace-nowrap z-50;
+}
+
+.tooltip:hover::after {
+  @apply opacity-100;
+}

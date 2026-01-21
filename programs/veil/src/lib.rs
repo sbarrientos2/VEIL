@@ -31,7 +31,7 @@ pub const MIN_BET_LAMPORTS: u64 = 1_000_000;         // 0.001 SOL minimum
 pub const MAX_BET_LAMPORTS: u64 = 1_000_000_000_000; // 1000 SOL maximum
 pub const MAX_QUESTION_LEN: usize = 200;
 
-declare_id!("VEiL111111111111111111111111111111111111111");
+declare_id!("FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy");
 
 // =============================================================================
 // COMPUTATION DEFINITION OFFSETS
@@ -861,7 +861,7 @@ pub struct InitMarketState<'info> {
     pub sign_pda_account: Account<'info, ArciumSignerAccount>,
 
     #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
 
     #[account(mut, address = derive_mempool_pda!(mxe_account, VeilError::MpcComputationFailed))]
     /// CHECK: mempool_account, checked by arcium program
@@ -876,16 +876,16 @@ pub struct InitMarketState<'info> {
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_INIT_MARKET_STATE))]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    pub comp_def_account: Box<Account<'info, ComputationDefinitionAccount>>,
 
     #[account(mut, address = derive_cluster_pda!(mxe_account, VeilError::MpcComputationFailed))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub cluster_account: Box<Account<'info, Cluster>>,
 
     #[account(mut, address = ARCIUM_FEE_POOL_ACCOUNT_ADDRESS)]
-    pub pool_account: Account<'info, FeePool>,
+    pub pool_account: Box<Account<'info, FeePool>>,
 
     #[account(mut, address = ARCIUM_CLOCK_ACCOUNT_ADDRESS)]
-    pub clock_account: Account<'info, ClockAccount>,
+    pub clock_account: Box<Account<'info, ClockAccount>>,
 
     pub system_program: Program<'info, System>,
     pub arcium_program: Program<'info, Arcium>,
@@ -897,16 +897,16 @@ pub struct InitMarketStateCallback<'info> {
     pub arcium_program: Program<'info, Arcium>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_INIT_MARKET_STATE))]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    pub comp_def_account: Box<Account<'info, ComputationDefinitionAccount>>,
 
     #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
 
     /// CHECK: computation_account, checked by arcium program
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_cluster_pda!(mxe_account, VeilError::MpcComputationFailed))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub cluster_account: Box<Account<'info, Cluster>>,
 
     #[account(address = anchor_lang::solana_program::sysvar::instructions::ID)]
     /// CHECK: instructions_sysvar
@@ -963,7 +963,7 @@ pub struct PlaceBet<'info> {
     pub sign_pda_account: Account<'info, ArciumSignerAccount>,
 
     #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
 
     #[account(mut, address = derive_mempool_pda!(mxe_account, VeilError::MpcComputationFailed))]
     /// CHECK: mempool_account
@@ -978,16 +978,16 @@ pub struct PlaceBet<'info> {
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_PLACE_BET))]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    pub comp_def_account: Box<Account<'info, ComputationDefinitionAccount>>,
 
     #[account(mut, address = derive_cluster_pda!(mxe_account, VeilError::MpcComputationFailed))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub cluster_account: Box<Account<'info, Cluster>>,
 
     #[account(mut, address = ARCIUM_FEE_POOL_ACCOUNT_ADDRESS)]
-    pub pool_account: Account<'info, FeePool>,
+    pub pool_account: Box<Account<'info, FeePool>>,
 
     #[account(mut, address = ARCIUM_CLOCK_ACCOUNT_ADDRESS)]
-    pub clock_account: Account<'info, ClockAccount>,
+    pub clock_account: Box<Account<'info, ClockAccount>>,
 
     pub system_program: Program<'info, System>,
     pub arcium_program: Program<'info, Arcium>,
@@ -999,16 +999,16 @@ pub struct PlaceBetCallback<'info> {
     pub arcium_program: Program<'info, Arcium>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_PLACE_BET))]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    pub comp_def_account: Box<Account<'info, ComputationDefinitionAccount>>,
 
     #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
 
     /// CHECK: computation_account
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_cluster_pda!(mxe_account, VeilError::MpcComputationFailed))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub cluster_account: Box<Account<'info, Cluster>>,
 
     #[account(address = anchor_lang::solana_program::sysvar::instructions::ID)]
     /// CHECK: instructions_sysvar
@@ -1049,7 +1049,7 @@ pub struct ResolveMarket<'info> {
     pub sign_pda_account: Account<'info, ArciumSignerAccount>,
 
     #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
 
     #[account(mut, address = derive_mempool_pda!(mxe_account, VeilError::MpcComputationFailed))]
     /// CHECK: mempool_account
@@ -1064,16 +1064,16 @@ pub struct ResolveMarket<'info> {
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_CALCULATE_PAYOUT_POOLS))]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    pub comp_def_account: Box<Account<'info, ComputationDefinitionAccount>>,
 
     #[account(mut, address = derive_cluster_pda!(mxe_account, VeilError::MpcComputationFailed))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub cluster_account: Box<Account<'info, Cluster>>,
 
     #[account(mut, address = ARCIUM_FEE_POOL_ACCOUNT_ADDRESS)]
-    pub pool_account: Account<'info, FeePool>,
+    pub pool_account: Box<Account<'info, FeePool>>,
 
     #[account(mut, address = ARCIUM_CLOCK_ACCOUNT_ADDRESS)]
-    pub clock_account: Account<'info, ClockAccount>,
+    pub clock_account: Box<Account<'info, ClockAccount>>,
 
     pub system_program: Program<'info, System>,
     pub arcium_program: Program<'info, Arcium>,
@@ -1085,16 +1085,16 @@ pub struct CalculatePayoutPoolsCallback<'info> {
     pub arcium_program: Program<'info, Arcium>,
 
     #[account(address = derive_comp_def_pda!(COMP_DEF_OFFSET_CALCULATE_PAYOUT_POOLS))]
-    pub comp_def_account: Account<'info, ComputationDefinitionAccount>,
+    pub comp_def_account: Box<Account<'info, ComputationDefinitionAccount>>,
 
     #[account(address = derive_mxe_pda!())]
-    pub mxe_account: Account<'info, MXEAccount>,
+    pub mxe_account: Box<Account<'info, MXEAccount>>,
 
     /// CHECK: computation_account
     pub computation_account: UncheckedAccount<'info>,
 
     #[account(address = derive_cluster_pda!(mxe_account, VeilError::MpcComputationFailed))]
-    pub cluster_account: Account<'info, Cluster>,
+    pub cluster_account: Box<Account<'info, Cluster>>,
 
     #[account(address = anchor_lang::solana_program::sysvar::instructions::ID)]
     /// CHECK: instructions_sysvar
