@@ -4,10 +4,15 @@
 
 import { PublicKey } from "@solana/web3.js";
 
-// Program IDs
-export const VEIL_PROGRAM_ID = new PublicKey(
-  "FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy"
-);
+// Program IDs for different environments
+export const VEIL_PROGRAM_IDS = {
+  localnet: new PublicKey("8LnpCJFjGfqKZskG4Y59F3qkzk6VVrVh2MtgmiknL6sP"),
+  devnet: new PublicKey("FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy"),
+  mainnet: new PublicKey("FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy"), // TBD
+} as const;
+
+// Default program ID (for backwards compatibility)
+export const VEIL_PROGRAM_ID = VEIL_PROGRAM_IDS.devnet;
 
 export const ARCIUM_PROGRAM_ID = new PublicKey(
   "Arcj82pX7HxYKLR92qvgZUAd7vGS1k4hQvAFcPATFdEQ"

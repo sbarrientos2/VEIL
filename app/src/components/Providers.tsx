@@ -20,9 +20,22 @@ interface ProvidersProps {
   children: ReactNode;
 }
 
+// Get network from environment variable
+const NETWORK = process.env.NEXT_PUBLIC_SOLANA_NETWORK || "devnet";
+
 export const Providers: FC<ProvidersProps> = ({ children }) => {
-  // Use devnet for now
-  const endpoint = useMemo(() => clusterApiUrl("devnet"), []);
+  // Use environment-based endpoint
+  const endpoint = useMemo(() => {
+    // Check for custom RPC endpoint override
+    if (process.env.NEXT_PUBLIC_RPC_ENDPOINT) {
+      return process.env.NEXT_PUBLIC_RPC_ENDPOINT;
+    }
+    // Use localnet or devnet based on environment
+    if (NETWORK === "localnet") {
+      return "http://localhost:8899";
+    }
+    return clusterApiUrl("devnet");
+  }, []);
 
   // Configure wallets
   const wallets = useMemo(

@@ -9,7 +9,7 @@ skip-lint = false
 veil = "FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy"
 
 [programs.localnet]
-veil = "FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy"
+veil = "8LnpCJFjGfqKZskG4Y59F3qkzk6VVrVh2MtgmiknL6sP"
 
 [registry]
 url = "https://api.apr.dev"
@@ -27,7 +27,7 @@ shutdown_wait = 2000
 upgradeable = false
 
 [test.validator]
+bind_address = "0.0.0.0"
 url = "https://api.devnet.solana.com"
 ledger = ".anchor/test-ledger"
 rpc_port = 8899
-bind_address = "172.17.0.1"

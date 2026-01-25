@@ -31,7 +31,7 @@ pub const MIN_BET_LAMPORTS: u64 = 1_000_000;         // 0.001 SOL minimum
 pub const MAX_BET_LAMPORTS: u64 = 1_000_000_000_000; // 1000 SOL maximum
 pub const MAX_QUESTION_LEN: usize = 200;
 
-declare_id!("FLPWpbDR64Ehb8Vo27YbDJQtPqGf488JwJmY3vH5uMxy");
+declare_id!("8LnpCJFjGfqKZskG4Y59F3qkzk6VVrVh2MtgmiknL6sP");
 
 // =============================================================================
 // COMPUTATION DEFINITION OFFSETS

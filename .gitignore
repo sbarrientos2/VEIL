@@ -22,6 +22,8 @@ Thumbs.db
 
 # Secrets
 .env
+.env.local
+.env*.local
 *.pem
 keypair.json
 *-keypair.json

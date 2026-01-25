@@ -92,6 +92,7 @@ export {
 // Constants
 export {
   VEIL_PROGRAM_ID,
+  VEIL_PROGRAM_IDS,
   ARCIUM_PROGRAM_ID,
   CLUSTER_OFFSETS,
   MIN_BET_LAMPORTS,

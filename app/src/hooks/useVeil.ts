@@ -18,9 +18,13 @@ import {
   solToLamports,
 } from "@/lib/veil-types";
 
+// Get network from environment variable
+const NETWORK = process.env.NEXT_PUBLIC_SOLANA_NETWORK || "devnet";
+
 // Dynamically import VeilClient to avoid SSR issues
 let VeilClient: any = null;
 let VEIL_PROGRAM_ID: PublicKey | null = null;
+let VEIL_PROGRAM_IDS: any = null;
 
 /**
  * Initialize SDK imports (browser-only)
@@ -32,7 +36,10 @@ async function initializeSdk() {
   try {
     const sdk = await import("../../../sdk");
     VeilClient = sdk.VeilClient;
-    VEIL_PROGRAM_ID = sdk.VEIL_PROGRAM_ID;
+    VEIL_PROGRAM_IDS = sdk.VEIL_PROGRAM_IDS;
+    // Use the correct program ID based on network
+    VEIL_PROGRAM_ID = VEIL_PROGRAM_IDS[NETWORK as keyof typeof VEIL_PROGRAM_IDS] || sdk.VEIL_PROGRAM_ID;
+    console.log(`[VEIL] Initialized for ${NETWORK}, Program ID: ${VEIL_PROGRAM_ID?.toBase58()}`);
     return VeilClient;
   } catch (err) {
     console.error("Failed to load VEIL SDK:", err);
@@ -76,11 +83,12 @@ export function useVeilClient() {
           payer: wallet.publicKey! as any, // Wallet adapter doesn't have payer, SDK handles this
         } as anchor.Wallet;
 
-        // Create client
+        // Create client with environment-based configuration
         const veilClient = new ClientClass({
           connection,
           wallet: anchorWallet,
-          cluster: "devnet", // Use devnet for now
+          cluster: NETWORK as "localnet" | "devnet" | "mainnet",
+          programId: VEIL_PROGRAM_ID,
         });
 
         setClient(veilClient);
